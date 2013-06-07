@@ -45,7 +45,7 @@
 具体的需求
 1、统计被访问最多的 top 50 URL
 2、统计发起请求最多的IP top 50
-3、匹配攻击特殊，统计出攻击IP TOP 50
+3、匹配攻击特征并记录日志 （特征库 https://www.owasp.org/index.php/Category:OWASP_ModSecurity_Core_Rule_Set_Project ,如贵所user-agent匹配扫描器，跟据正则区配到注入或XSS）
 
 
 
