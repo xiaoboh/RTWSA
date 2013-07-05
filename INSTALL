@@ -1,0 +1,45 @@
+1. 说明
+    软件在功能上分为3个模块：
+        a. record: 将http请求的统计信息记录到redis中。
+        b. moniter: 查看统计结果的接口
+        c. db: 采用redis，将统计信息保存在内存中。
+
+    现在的实现只是一个示例，演示一下实时统记的流程，现在只统记访问url的top 50, 每过一小时重新开始记录。
+
+2. 配置方法
+    a. 安装nginx的一个增强包：ngx_openresty
+    b. 安装redis,并启动
+    c. 修改nginx的配置文件，增加下内容：
+        server {
+            listen       80;
+            server_name  localhost;
+            lua_code_cache off; 
+
+
+            location / {
+                content_by_lua_file record.lua;
+            }
+        }
+
+        server {
+            listen       8080;
+            server_name  localhost;
+            lua_code_cache off; 
+
+
+            location / {
+                content_by_lua_file get_toplist.lua;
+            }
+        }
+
+    d: 启动nginx
+
+
+3. 测试
+    发起请求:
+        curl http://127.0.0.1/test1
+        curl http://127.0.0.1/test2
+        ...
+
+    得到统计数据:
+        curl http://127.0.0.1:8080
